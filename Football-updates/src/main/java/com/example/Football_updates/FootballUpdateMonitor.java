@@ -55,7 +55,7 @@ public class FootballUpdateMonitor {
                             "status", "notification"
                     );
                     String match = "Team A vs Team B";  // Replace with actual match details
-                    String messaged = "up";
+                    String messaged = "up!";
 
                     // Send the message to Telex (using the updated method)
                     return telexNotificationService.sendFootballUpdate(match, messaged)
