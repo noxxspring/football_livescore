@@ -65,13 +65,16 @@ jobs:
        # Create the private key file from GitHub secrets
     - name: Create private SSH key file
       run: |
-        echo "${{ secrets.EC2_KEY }}" > private-key.pem
-        chmod 600 private-key.pem   
+        echo "${{ secrets.EC2_KEY }}" > /tmp/private-key.pem
+        chmod 600 /tmp/private-key.pem   
 
     # Copy the JAR file to EC2 using SCP
     - name: Copy JAR file to EC2
       run: |
-        scp -v -o StrictHostKeyChecking=no -i ${{ secrets.EC2_KEY }} ./Football-updates/target/Football-updates-0.0.1-SNAPSHOT.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/app.jar
+        scp -v -o StrictHostKeyChecking=no -i /tmp/private-key.pem ./Football-updates/target/Football-updates-0.0.1-SNAPSHOT.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/app.jar
+
+        # Clean up the temporary key file
+        rm /tmp/ec2_key.pem
     # SSH into EC2 and restart the Spring Boot application
     - name: SSH into EC2 and restart Spring Boot app
       run: |
