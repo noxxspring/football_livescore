@@ -37,6 +37,7 @@ jobs:
       run: |
         cd Football-updates  # Change to the directory containing pom.xml
         mvn clean install 
+        working-directory: ./Football-updates
 
     # Upload the JAR file to GitHub Actions artifact store
     - name: Upload JAR artifact
@@ -66,6 +67,7 @@ jobs:
       # Check if the JAR file exists in the target folder
     - name: Check if JAR file exists
       run: |
+        pwd  # Print working directory
         ls -l ./Football-updates/target/   
 
        # Create the private key file from GitHub secrets
