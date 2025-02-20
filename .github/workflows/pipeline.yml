@@ -33,4 +33,4 @@ jobs:
       - name: Delete old container
         run: docker rm -f livescore-container
       - name: Run docker container
-        run: docker run -d -p 4000:8080 --name livescore-container football-livescore
+        run: docker run -d -p 8080:8080 --name livescore-container football-livescore
