@@ -65,11 +65,11 @@ jobs:
     # Copy the JAR file to EC2 using SCP
     - name: Copy JAR file to EC2
       run: |
-        scp -v -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ./target/Football-updates-0.0.1-SNAPSHOT.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/app.jar
+        scp -v -o StrictHostKeyChecking=no -i ${{ secrets.EC2_KEY }} ./target/Football-updates-0.0.1-SNAPSHOT.jar ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/app.jar
     # SSH into EC2 and restart the Spring Boot application
     - name: SSH into EC2 and restart Spring Boot app
       run: |
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ubuntu@${{ secrets.EC2_IP }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_KEY }} ubuntu@${{ secrets.EC2_IP }} << 'EOF'
           # Stop the previous Spring Boot app if running
           pkill -f 'java -jar'
 
