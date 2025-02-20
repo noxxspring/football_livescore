@@ -32,5 +32,5 @@ jobs:
         run:  docker pull noxxspring/football-livescore:latest
       - name: Delete old container
         run:  docker rm -f livescore-container
-      - name: sudo Run docker container
-        run: sudo docker run -d -p 8080:8080 --name livescore-container noxxspring/football-livescore
+      - name:  Run docker container
+        run:  docker run -d -p 8080:8080 --name livescore-container noxxspring/football-livescore
