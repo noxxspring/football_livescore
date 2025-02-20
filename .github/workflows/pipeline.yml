@@ -62,6 +62,12 @@ jobs:
         name: app-jar
         path: ./target
 
+       # Create the private key file from GitHub secrets
+    - name: Create private SSH key file
+      run: |
+        echo "${{ secrets.EC2_KEY }}" > private-key.pem
+        chmod 600 private-key.pem   
+
     # Copy the JAR file to EC2 using SCP
     - name: Copy JAR file to EC2
       run: |
