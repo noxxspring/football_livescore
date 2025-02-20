@@ -21,7 +21,7 @@ public class FootballUpdateMonitor {
         this.telexNotificationService = telexNotificationService;
     }
 
-    @Scheduled(cron = "0 0 * * * ?")  // Run at the start of every hour (cron expression for hourly schedule)
+    @Scheduled(cron = "0 */5 * * * *")  // Run at the start of every hour (cron expression for hourly schedule)
     public void fetchAndSendLiveScores() {
         footballUpdateService.getFootballSummary()
                 .flatMap(matches -> {
@@ -40,27 +40,18 @@ public class FootballUpdateMonitor {
                         String awayTeam = getTeamName(match, "awayTeam");
                         String score = getScore(match);
 
-                        // Append match details to the message
-                        message.append(String.format("%s VS %s: %s\n", homeTeam, awayTeam, score));
+                        String matchMessage = String.format("Match: %s vs %s:", homeTeam, awayTeam);
+
+                        message.append(matchMessage).append("\n");
+
+                        // Log the message before sending
+                        logger.info("Message to be sent to Telex: {}", message.toString());
+                        // Send the message to Telex (using the updated method)
+                        return telexNotificationService.sendFootballUpdate(matchMessage, score)
+                                .doOnSuccess(result -> logger.info("Live scores sent to Telex successfully."))
+                                .doOnError(error -> logger.error("Error while sending to Telex", error));
                     }
-
-                    // Log the message before sending
-                    logger.info("Message to be sent to Telex: {}", message.toString());
-
-                    // Prepare the payload to send to Telex as a Map
-                    Map<String, Object> payload = Map.of(
-                            "message", message.toString(),
-                            "username", "Football Update Service",
-                            "event_name", "Football Live Scores",
-                            "status", "notification"
-                    );
-                    String match = "Team A vs Team B";  // Replace with actual match details
-                    String messaged = "up!";
-
-                    // Send the message to Telex (using the updated method)
-                    return telexNotificationService.sendFootballUpdate(match, messaged)
-                            .doOnSuccess(result -> logger.info("Live scores sent to Telex successfully."))
-                            .doOnError(error -> logger.error("Error while sending to Telex", error));
+                    return Mono.empty();
                 })
                 .subscribe(); // Trigger the reactive pipeline
     }
