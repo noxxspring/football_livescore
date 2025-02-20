@@ -62,6 +62,12 @@ jobs:
         name: app-jar
         path: ./target
 
+
+      # Check if the JAR file exists in the target folder
+    - name: Check if JAR file exists
+      run: |
+        ls -l ./Football-updates/target/   
+
        # Create the private key file from GitHub secrets
     - name: Create private SSH key file
       run: |
