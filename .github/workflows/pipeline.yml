@@ -29,6 +29,8 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '17'
+        distribution: 'temurin'  # Specify the JDK distribution
+        architecture: x64
 
     # Run Maven clean install to build the project
     - name: Build with Maven
