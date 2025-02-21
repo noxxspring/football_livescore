@@ -22,7 +22,7 @@ public class TelexNotificationService {
         // Format the payload
         String payload = String.format(
                 "{\"message\":\"%s: %s\",\"username\":\"Football Update\",\"event_name\":\"Football Match Update\",\"status\":\"%s\"}",
-                match, message, message.equals("up") ? "error" : "success");
+                match, message, message.equals(".*\\d+.*") ? "error" : "success");
 
         // Prepare the headers for the POST request
         HttpHeaders headers = new HttpHeaders();

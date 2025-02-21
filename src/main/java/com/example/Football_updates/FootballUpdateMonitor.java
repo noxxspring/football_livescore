@@ -21,7 +21,7 @@ public class FootballUpdateMonitor {
         this.telexNotificationService = telexNotificationService;
     }
 
-    @Scheduled(cron = "0 */5 * * * *")  // Run at the start of every hour (cron expression for hourly schedule)
+    @Scheduled(cron = "0 0 * * * *")  // Run at the start of every hour (cron expression for hourly schedule)
     public void fetchAndSendLiveScores() {
         footballUpdateService.getFootballSummary()
                 .flatMap(matches -> {
