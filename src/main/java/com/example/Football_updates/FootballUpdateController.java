@@ -45,6 +45,9 @@ public class FootballUpdateController {
     @Value("${telex.integration.settings.time_interval}")
     private String timeInterval;
 
+    @Value("${telex.integration.integration_category}")
+    private String integration_category;
+
     @Value("${telex.integration.settings.event_type}")
     private String eventType;
 
@@ -77,6 +80,7 @@ public class FootballUpdateController {
         Map<String, Object> data = new HashMap<>();
         data.put("descriptions", description);
         data.put("integration_type", integrationType);
+        data.put("integration_category",integration_category);
         data.put("is_active", isActive);
         data.put("Key_features", keyFeatures);
         data.put("author", author);

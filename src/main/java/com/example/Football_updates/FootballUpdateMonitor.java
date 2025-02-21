@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -24,35 +25,19 @@ public class FootballUpdateMonitor {
     @Scheduled(cron = "0 0 * * * *")  // Run at the start of every hour (cron expression for hourly schedule)
     public void fetchAndSendLiveScores() {
         footballUpdateService.getFootballSummary()
-                .flatMap(matches -> {
-                    // Check if matches is null or empty
-                    if (matches == null || matches.isEmpty()) {
-                        logger.warn("No matches found.");
-                        return Mono.empty();
-                    }
+                .flatMapMany(Flux::fromIterable)  // Convert List to Flux (Reactive Stream)
+                .flatMap(match -> {
+                    // Extract match details
+                    String homeTeam = getTeamName(match, "homeTeam");
+                    String awayTeam = getTeamName(match, "awayTeam");
+                    String score = getScore(match);
 
-                    // Build the message
-                    StringBuilder message = new StringBuilder("Live Football Scores:\n");
+                    String matchMessage = String.format("Match: %s vs %s:", homeTeam, awayTeam);
+                    logger.info("Sending to Telex: {}", matchMessage);
 
-                    for (Map<String, Object> match : matches) {
-                        // Safely extract match details
-                        String homeTeam = getTeamName(match, "homeTeam");
-                        String awayTeam = getTeamName(match, "awayTeam");
-                        String score = getScore(match);
-
-                        String matchMessage = String.format("Match: %s vs %s:", homeTeam, awayTeam);
-
-                        message.append(matchMessage).append("\n");
-
-                        // Log the message before sending
-                        logger.info("Message to be sent to Telex: {}", message.toString());
-                        // Send the message to Telex (using the updated method)
-                        return telexNotificationService.sendFootballUpdate(matchMessage, score)
-                                .doOnSuccess(result -> logger.info("Live scores sent to Telex successfully."))
-                                .doOnError(error -> logger.error("Error while sending to Telex", error));
-                    }
-                    return Mono.empty();
+                    return telexNotificationService.sendFootballUpdate(matchMessage, score);
                 })
+                .doOnComplete(() -> logger.info("All live scores sent to Telex successfully."))
                 .subscribe(); // Trigger the reactive pipeline
     }
 
