@@ -102,6 +102,7 @@ public class FootballUpdateController {
 
         settings.add(timeIntervalSetting);
         settings.add(eventTypeSetting);
+        settings.add(intervalSetting);
 
         Map<String, Object> data = new LinkedHashMap<>();
         data.put("descriptions", descriptions);
