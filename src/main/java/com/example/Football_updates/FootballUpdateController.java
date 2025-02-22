@@ -18,6 +18,9 @@ public class FootballUpdateController {
     @Value("${telex.integration.app_name}")
     private String appName;
 
+    @Value("${telex.integration.settings.interval}")
+    private String interval;
+
     @Value("${telex.integration.app_description}")
     private String appDescription;
 
@@ -90,6 +93,12 @@ public class FootballUpdateController {
         eventTypeSetting.put("type", "text");
         eventTypeSetting.put("required", true);
         eventTypeSetting.put("default", "* * * * *"); // Ensure eventType is correctly set
+
+        Map<String, Object> intervalSetting = new LinkedHashMap<>();
+        intervalSetting.put("label","interval");
+        intervalSetting.put("type","text");
+        intervalSetting.put("required",true);
+        intervalSetting.put("default", "* * * * *");
 
         settings.add(timeIntervalSetting);
         settings.add(eventTypeSetting);
