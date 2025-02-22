@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Component
 public class TelexNotificationService {
-    private final String telexWebhookUrl = "https://ping.telex.im/v1/webhooks/01952b33-de08-710c-bf73-b359d4cf2cf2";
+    private final String telexWebhookUrl = "https://ping.telex.im/v1/webhooks/01952ea1-bb58-7a95-8943-9a89eb2ed2ff";
     private final RestTemplate restTemplate;
 
     public TelexNotificationService(RestTemplate restTemplate) {
