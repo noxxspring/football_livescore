@@ -4,14 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @CrossOrigin("*")
@@ -68,44 +66,46 @@ public class FootballUpdateController {
     }
 
     // endpoint that returns the integration.json
-    @GetMapping("/integration.json")
+    @GetMapping(value = "/integration.json", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> getIntegrationJson () {
-        Map<String, Object> response = new HashMap<>();
-
-        Map<String, Object> description = new HashMap<>();
-        description.put("app_name",appName);
-        description.put("app_description", appDescription);
-        description.put("app_url", appUrl);
-        description.put("app_logo",appLogo);
-        description.put("background_color", backgroundColor);
+        // Use LinkedHashMap to maintain insertion order
+        Map<String, Object> descriptions = new LinkedHashMap<>();
+        descriptions.put("app_name", appName);
+        descriptions.put("app_description", appDescription);
+        descriptions.put("app_url", appUrl);
+        descriptions.put("app_logo", appLogo);
+        descriptions.put("background_color", backgroundColor);
+        descriptions.put("key_features",keyFeatures);
 
         List<Map<String, Object>> settings = new ArrayList<>();
 
-        Map<String, Object> timeIntervalSetting = new HashMap<>();
+        Map<String, Object> timeIntervalSetting = new LinkedHashMap<>();
         timeIntervalSetting.put("label", "time_interval");
         timeIntervalSetting.put("type", "dropdown");
         timeIntervalSetting.put("required", true);
-        timeIntervalSetting.put("default", timeInterval);
+        timeIntervalSetting.put("default", "one-hour");
 
-
-        Map<String, Object> eventTypeSetting = new HashMap<>();
+        Map<String, Object> eventTypeSetting = new LinkedHashMap<>();
         eventTypeSetting.put("label", "event_type");
         eventTypeSetting.put("type", "text");
         eventTypeSetting.put("required", true);
-        eventTypeSetting.put("default", eventType);
+        eventTypeSetting.put("default", eventType); // Ensure eventType is correctly set
 
         settings.add(timeIntervalSetting);
         settings.add(eventTypeSetting);
 
-        // Data Section
-        Map<String, Object> data = new HashMap<>();
-        data.put("descriptions", description);
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("descriptions", descriptions);
         data.put("integration_type", "interval");
         data.put("settings", settings);
         data.put("target_url",targetUrl);
-        data.put("tick_url", tickUrl);
+        data.put("tick_url", tickUrl); // Ensures correct URL
 
+        Map<String, Object> response = new LinkedHashMap<>();
         response.put("data", data);
+
+        System.out.println("Returning JSON: " + response); // Debugging
+
         return response;
     }
 
