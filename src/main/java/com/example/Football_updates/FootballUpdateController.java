@@ -111,7 +111,7 @@ public class FootballUpdateController {
         data.put("integration_category", integration_category);
         data.put("key_features",keyFeatures);
         data.put("settings", settings);
-        data.put("target_url",targetUrl);
+        data.put("target_url","");
         data.put("tick_url", tickUrl); // Ensures correct URL
 
         Map<String, Object> response = new LinkedHashMap<>();
