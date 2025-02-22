@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -37,7 +38,7 @@ public class FootballUpdateController {
     private String integrationType;
 
     @Value("${telex.integration.key_features}")
-    private String keyFeatures;
+    private List<String> keyFeatures;
 
     @Value("${telex.integration.author}")
     private String author;
