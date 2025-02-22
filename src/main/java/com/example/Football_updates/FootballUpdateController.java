@@ -89,7 +89,7 @@ public class FootballUpdateController {
         eventTypeSetting.put("label", "event_type");
         eventTypeSetting.put("type", "text");
         eventTypeSetting.put("required", true);
-        eventTypeSetting.put("default", eventType); // Ensure eventType is correctly set
+        eventTypeSetting.put("default", "* * * * *"); // Ensure eventType is correctly set
 
         settings.add(timeIntervalSetting);
         settings.add(eventTypeSetting);
