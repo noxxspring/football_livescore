@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,35 +75,34 @@ public class FootballUpdateController {
         Map<String, Object> description = new HashMap<>();
         description.put("app_name",appName);
         description.put("app_description", appDescription);
-        description.put("app_logo",appLogo);
         description.put("app_url", appUrl);
+        description.put("app_logo",appLogo);
         description.put("background_color", backgroundColor);
 
+        List<Map<String, Object>> settings = new ArrayList<>();
+
+        Map<String, Object> timeIntervalSetting = new HashMap<>();
+        timeIntervalSetting.put("label", "time_interval");
+        timeIntervalSetting.put("type", "dropdown");
+        timeIntervalSetting.put("required", true);
+        timeIntervalSetting.put("default", timeInterval);
+
+
+        Map<String, Object> eventTypeSetting = new HashMap<>();
+        eventTypeSetting.put("label", "event_type");
+        eventTypeSetting.put("type", "text");
+        eventTypeSetting.put("required", true);
+        eventTypeSetting.put("default", eventType);
+
+        settings.add(timeIntervalSetting);
+        settings.add(eventTypeSetting);
+
+        // Data Section
         Map<String, Object> data = new HashMap<>();
         data.put("descriptions", description);
-        data.put("integration_type", integrationType);
-        data.put("integration_category",integration_category);
-        data.put("is_active", isActive);
-        data.put("key_features", keyFeatures);
-        data.put("author", author);
-
-        // settings for time interval and event type
-        Map<String, Object> time = new HashMap<>();
-        time.put("label", "time_interval");
-        time.put("type", "dropdown");
-        time.put("required", true);
-        time.put("default", timeInterval);
-        time.put("options", new String[]{"one-hour"});
-
-        //event type
-        Map<String, Object> event = new HashMap<>();
-        event.put("label", "event_type");
-        event.put("type", "text");
-        event.put("required", true);
-        event.put("default", eventType);
-
-        data.put("settings", new Map[]{time,event});
-        data.put("target_url", targetUrl);
+        data.put("integration_type", "interval");
+        data.put("settings", settings);
+        data.put("target_url",targetUrl);
         data.put("tick_url", tickUrl);
 
         response.put("data", data);
