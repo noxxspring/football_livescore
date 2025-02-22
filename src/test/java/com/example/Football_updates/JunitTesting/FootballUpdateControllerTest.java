@@ -29,10 +29,10 @@ public class FootballUpdateControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-//    @Test
-//    void testGetIntegrationJson() {
-//        Map<String, Object> response = footballUpdateController.getIntegrationJson();
-//        assertNotNull(response);
-//        assertTrue(response.containsKey("data"));
-//    }
+    @Test
+    void testGetIntegrationJson() {
+        Map<String, Object> response = footballUpdateController.getIntegrationJson();
+        assertNotNull(response);
+        assertTrue(response.containsKey("data"));
+    }
 }
