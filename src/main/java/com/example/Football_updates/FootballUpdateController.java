@@ -69,7 +69,7 @@ public class FootballUpdateController {
     }
 
     // endpoint that returns the integration.json
-    @GetMapping(value = "/integration.json", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/integration.json")
     public Map<String, Object> getIntegrationJson () {
         // Use LinkedHashMap to maintain insertion order
         Map<String, Object> descriptions = new LinkedHashMap<>();
