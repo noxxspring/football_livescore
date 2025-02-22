@@ -75,7 +75,7 @@ public class FootballUpdateController {
         descriptions.put("app_url", appUrl);
         descriptions.put("app_logo", appLogo);
         descriptions.put("background_color", backgroundColor);
-        descriptions.put("key_features",keyFeatures);
+
 
         List<Map<String, Object>> settings = new ArrayList<>();
 
@@ -96,7 +96,10 @@ public class FootballUpdateController {
 
         Map<String, Object> data = new LinkedHashMap<>();
         data.put("descriptions", descriptions);
-        data.put("integration_type", "interval");
+        data.put("integration_type",integrationType);
+        data.put("is_active",false);
+        data.put("integration_category", integration_category);
+        data.put("key_features",keyFeatures);
         data.put("settings", settings);
         data.put("target_url",targetUrl);
         data.put("tick_url", tickUrl); // Ensures correct URL
