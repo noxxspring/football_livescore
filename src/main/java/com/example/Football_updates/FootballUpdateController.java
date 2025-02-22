@@ -82,26 +82,12 @@ public class FootballUpdateController {
 
         List<Map<String, Object>> settings = new ArrayList<>();
 
-        Map<String, Object> timeIntervalSetting = new LinkedHashMap<>();
-        timeIntervalSetting.put("label", "time_interval");
-        timeIntervalSetting.put("type", "dropdown");
-        timeIntervalSetting.put("required", true);
-        timeIntervalSetting.put("default", "one-hour");
-
-        Map<String, Object> eventTypeSetting = new LinkedHashMap<>();
-        eventTypeSetting.put("label", "event_type");
-        eventTypeSetting.put("type", "text");
-        eventTypeSetting.put("required", true);
-        eventTypeSetting.put("default", "* * * * *"); // Ensure eventType is correctly set
-
         Map<String, Object> intervalSetting = new LinkedHashMap<>();
         intervalSetting.put("label","interval");
         intervalSetting.put("type","text");
         intervalSetting.put("required",true);
         intervalSetting.put("default", "* * * * *");
 
-        settings.add(timeIntervalSetting);
-        settings.add(eventTypeSetting);
         settings.add(intervalSetting);
 
         Map<String, Object> data = new LinkedHashMap<>();
